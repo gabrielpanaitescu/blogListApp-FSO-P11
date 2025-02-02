@@ -94,7 +94,7 @@ export const useInitializeAuth = () => {
     } else if (!loggedUserJSON) {
       setAuthInitializing(false);
     }
-    /*eslint-disable-next-line*/
+    // eslint-disable-next-line
   }, []);
 
   return { user, authInitializing };
