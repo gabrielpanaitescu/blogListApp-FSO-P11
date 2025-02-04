@@ -157,7 +157,7 @@ describe("when there is initially an user and some blogs saved", () => {
 
       const response = await api
         .post("/api/blogs")
-        .set("Authorization", `dsihjff342834m8439`)
+        .set("Authorization", "dsihjff342834m8439")
         .send(newBlog)
         .expect(401);
 
@@ -246,7 +246,7 @@ describe("when there is initially an user and some blogs saved", () => {
 
       const response = await api
         .delete(`/api/blogs/${blogToDelete.id}`)
-        .set("Authorization", `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.`)
+        .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.")
         .expect(401);
 
       assert(response.body.error.includes("token missing or invalid"));
@@ -346,7 +346,7 @@ describe("when there is initially an user and some blogs saved", () => {
 
       const response = await api
         .put(`/api/blogs/${blogToUpdate.id}`)
-        .set("Authorization", `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.`)
+        .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.")
         .expect(401);
 
       assert(response.body.error.includes("token missing or invalid"));
@@ -439,7 +439,7 @@ describe("when there is initially an user and some blogs saved", () => {
 
         const response = await api
           .post(`/api/blogs/${blogsAtStart.id}/comments`)
-          .set("Authorization", `dsihjff342834m8439`)
+          .set("Authorization", "dsihjff342834m8439")
           .send(comment)
           .expect(401);
 
@@ -533,7 +533,7 @@ describe("when there is initially an user and some blogs saved", () => {
           .delete(
             `/api/blogs/${blogToDeleteCommentFrom.id}/${commentToDelete.id}`
           )
-          .set("Authorization", `dsihjff342834m8439`)
+          .set("Authorization", "dsihjff342834m8439")
           .expect(401);
 
         assert(response.body.error.includes("token missing or invalid"));
@@ -640,7 +640,7 @@ describe("when there is initially an user and some blogs saved", () => {
 
         const response = await api
           .put(`/api/blogs/${blogToEditCommentFrom.id}/${commentToEdit.id}`)
-          .set("Authorization", `dsihjff342834m8439`)
+          .set("Authorization", "dsihjff342834m8439")
           .expect(401);
 
         assert(response.body.error.includes("token missing or invalid"));
@@ -672,18 +672,7 @@ describe("when there is initially an user and some blogs saved", () => {
   });
 });
 
-describe("when there is initially an user saved in db", () => {
-  beforeEach(async () => {
-    await User.deleteMany({});
-
-    const user = new User({
-      username: "root_root",
-      passwordHash: await bcrypt.hash("sekret", 10),
-    });
-
-    await user.save();
-  });
-
+describe("users => one user is already created", () => {
   test("another user creation succeeds with valid data", async () => {
     const usersAtStart = await helper.usersInDb();
 

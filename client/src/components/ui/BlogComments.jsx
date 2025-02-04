@@ -23,7 +23,7 @@ const BlogComments = ({ blog }) => {
     addBlogCommentMutation.mutate(
       { id: blog.id, text },
       {
-        onSettled: () => {
+        onSuccess: () => {
           setText("");
           setIsBlurred(false);
         },
@@ -45,7 +45,7 @@ const BlogComments = ({ blog }) => {
       commentId,
     };
     deleteBlogCommentMutation.mutate(payload, {
-      onSettled: () => {
+      onSuccess: () => {
         setIsBlurred(false);
       },
     });
@@ -60,7 +60,7 @@ const BlogComments = ({ blog }) => {
       commentId,
     };
     editBlogCommentMutation.mutate(payload, {
-      onSettled: () => {
+      onSuccess: () => {
         setEditMode(false);
         setIsBlurred(false);
       },
@@ -74,6 +74,7 @@ const BlogComments = ({ blog }) => {
         <form onSubmit={handlePostComment}>
           <Stack align="start">
             <Textarea
+              data-testId="addCommentTextarea"
               description="Type your comment and press post!"
               placeholder="This blog was awesome...."
               value={text}

@@ -24,7 +24,6 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { useLogout } from "../hooks/query/useAuth.js";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const ProtectedRoute = ({ children }) => {
   const user = useAuthState();
@@ -139,7 +138,6 @@ export const AppRouter = () => {
   }
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
       <RouterProvider router={router} />
     </QueryClientProvider>
   );

@@ -8,12 +8,13 @@ const blogsRouter = require("./controllers/blogs");
 const logger = require("./utils/logger");
 const middleware = require("./utils/middleware");
 const mongoose = require("mongoose");
+const path = require("path");
 
 const app = express();
 
 mongoose.set("strictQuery", false);
 
-logger.info("connecting to: ", MONGODB_URI);
+logger.info("Connecting to MongoDB...");
 
 mongoose
   .connect(MONGODB_URI)
@@ -25,6 +26,7 @@ mongoose
   });
 
 app.use(cors());
+app.use(express.static("../client/dist"));
 app.use(express.json());
 app.use(middleware.requestLogger);
 app.use(middleware.tokenExtractor);
@@ -37,6 +39,10 @@ if (process.env.NODE_ENV === "test") {
   const testingRouter = require("./controllers/testing");
   app.use("/api/testing", testingRouter);
 }
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+});
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);

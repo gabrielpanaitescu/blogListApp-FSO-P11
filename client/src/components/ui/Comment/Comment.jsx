@@ -61,6 +61,7 @@ export default function Comment({
         {editMode && isUserCommentOwner ? (
           <form onSubmit={onEditComment}>
             <Textarea
+              data-testId="editCommentTextarea"
               required
               value={editText}
               onChange={(e) => setEditText(e.currentTarget.value)}
@@ -86,7 +87,7 @@ export default function Comment({
       {isUserCommentOwner && (
         <Flex justify="space-between" mt={15}>
           <ActionIcon
-            id="editButton"
+            data-testId="editCommentButton"
             size="xs"
             variant="subtle"
             onClick={() => {
@@ -97,6 +98,7 @@ export default function Comment({
             <IconEdit stroke={2} />
           </ActionIcon>
           <ActionIcon
+            data-testId="deleteCommentButton"
             size="xs"
             variant="subtle"
             color="red"

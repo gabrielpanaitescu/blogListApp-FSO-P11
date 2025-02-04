@@ -29,7 +29,7 @@ const BlogList = () => {
         setIsBlurred(false);
         notifications.show({
           title: "Info",
-          message: `Added blog ${returnedBlog.title} by ${returnedBlog.author}`,
+          message: `Added blog '${returnedBlog.title}' by '${returnedBlog.author}'`,
           position: "top-center",
           autoClose: 5000,
           color: "green",

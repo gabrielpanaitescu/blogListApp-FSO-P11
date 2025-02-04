@@ -1,0 +1,27 @@
+# fly.toml app configuration file generated for blogapp-fso on 2025-02-04T21:52:06+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'blogapp-fso'
+primary_region = 'otp'
+
+[env]
+  PORT = 3000
+  NODE_ENV = production
+
+[processes]
+  app = "note ./server/index.js"
+
+[build]
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  size = 'shared-cpu-1x'
