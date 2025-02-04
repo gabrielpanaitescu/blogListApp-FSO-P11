@@ -1,12 +1,23 @@
 ### Fullstack Blog List App
 
+1. Start by running npm install inside the cloned project folder
+
+2. Build frontend using npm run build:client
+
+3. npm run start:server / dev:server to quickly spin-up production / development an express app available at localhost:3003 that server static files of the built frontend!
+
+4. Testing commands:
+   - npm run test:client for frontend unit tests
+   - npm run test:server for backend integration tests
+   - npm run test:e2e for Playwright end-to-end tests
+
 ##### Deployment
 
-- fly.io: _TODO_ add link
+- fly.io:
 
 ##### CI/CD
 
-- CI system: GitHub Actions with custom workflows. Includes deployment pipeline workflow to test, lint, build, deploy, add tag versioning plus more
+- CI system: GitHub Actions with custom workflows. Includes deployment pipeline workflow to test, lint, build, deploy, add tag versioning plus a health check workflow
 
 ##### Some of Libraries / Tools / Frameworks:
 
@@ -18,5 +29,5 @@
 ##### Testing
 
 - End-to-end tests: Playwright
-- Frontend Unit tests: _TODO_ add test tools
+- Frontend Unit tests: Vitest + React Testing Library + jsdom
 - Backend Integration tests: supertest
