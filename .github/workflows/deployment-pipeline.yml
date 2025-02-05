@@ -31,7 +31,10 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright e2e tests
-        run: npm run test:e2e
+        run: |
+          echo "PORT: $PORT"
+          echo "TEST_MONGODB_URI: $TEST_MONGODB_URI"
+          npm run test:e2e
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
