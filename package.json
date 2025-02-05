@@ -11,7 +11,7 @@
     "start:test:server": "cd ./server && NODE_ENV=test node index.js",
     "test:client": "cd ./client && vitest run",
     "test:server": "cd ./server && NODE_ENV=test node --test",
-    "test:e2e": "npx playwright test",
+    "test:e2e": "npx playwright test --project=chromium",
     "report:e2e": "npx playwright show-report",
     "lint": "eslint ."
   },

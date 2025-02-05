@@ -10,7 +10,7 @@ env:
 
 jobs:
   health_check_deployed_app:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Send health check
         uses: jtalk/url-health-check-action@b716ccb6645355dd9fcce8002ce460e5474f7f00
