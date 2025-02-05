@@ -10,6 +10,8 @@ on:
 env:
   COMMIT_CONTAINS_SKIP: ${{ contains(join(github.event.commits.*.message, ' '), '#skip') }}
   DEPLOYED_APP_URL: https://blogapp-fso.fly.dev/
+  TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+  PORT: ${{ secrets.PORT }}
 
 jobs:
   deployment-pipeline:
