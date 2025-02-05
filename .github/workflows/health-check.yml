@@ -1,0 +1,42 @@
+name: Health Check
+
+on:
+  schedule:
+    - cron: "25 * * * *"
+
+env:
+  SCHEDULED_AT: "Every hour at minute 25 (may vary due to queue)"
+  DEPLOYED_APP_URL: https://blogapp-fso.fly.dev/
+
+jobs:
+  health_check_deployed_app:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Send health check
+        uses: jtalk/url-health-check-action@b716ccb6645355dd9fcce8002ce460e5474f7f00
+        with:
+          url: "${{ env.DEPLOYED_APP_URL }}"
+      - name: Send discord notification on success
+        uses: sarisia/actions-status-discord@5ddd3b114a98457dd80a39b2f00b6a998cd69008
+        if: ${{ success() }}
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          nodetail: true
+          content: "Health Check"
+          title: ${{ job.status }}
+          description: |
+            Interval: ${{ env.SCHEDULED_AT }}
+            Visit [website](${{ env.DEPLOYED_APP_URL }})
+          username: GitHub Actions
+      - name: Send discord notification on failure
+        uses: sarisia/actions-status-discord@5ddd3b114a98457dd80a39b2f00b6a998cd69008
+        if: ${{ failure() }}
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          nodetail: true
+          content: "Health Check"
+          title: ${{ job.status }}
+          description: |
+            Interval ${{ env.SCHEDULED_AT }}
+            Repository: https://github.com/${{ github.repository }}
+          username: GitHub Actions

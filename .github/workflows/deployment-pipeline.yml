@@ -1,0 +1,81 @@
+name: Deployment Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    types: [synchronize, opened]
+
+env:
+  COMMIT_CONTAINS_SKIP: ${{ contains(join(github.event.commits.*.message, ' '), '#skip') }}
+  DEPLOYED_APP_URL: https://blogapp-fso.fly.dev/
+
+jobs:
+  deployment-pipeline:
+    runs-on: ubuntu-20.04
+    concurrency: deploy-group
+    steps:
+      - use: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        run: npm install
+      - name: Check styles
+        run: npm run lint
+      - name: Build frontend dist directory
+        run: npm run build:client
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright e2e tests
+        run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+      - name: Run backend integration tests
+        run: npm run test:server
+      - name: Run frontend unit tests
+        run: npm run test:client
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy to fly.io
+        if: ${{ github.event_name == 'push' && env.COMMIT_CONTAINS_SKIP == 'false' }}
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Send discord notification if job succeeded
+        if: ${{ success() && env.COMMIT_CONTAINS_SKIP == 'false' }}
+        uses: sarisia/actions-status-discord@5ddd3b114a98457dd80a39b2f00b6a998cd69008
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          nodetail: true
+          content: "A new version of blogApp deployed"
+          title: ${{ job.status }}
+          description: |
+            by `${{ github.actor }}`
+            Click [here](${{ env.DEPLOYED_APP_URL }}) to visit the deployed app!
+          username: GitHub Actions
+      - name: Send discord notification if job failed
+        if: ${{ failure() }}
+        uses: sarisia/actions-status-discord@5ddd3b114a98457dd80a39b2f00b6a998cd69008
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          content: "Deployment failed"
+          status: ${{ job.status }}
+          title: "deploy"
+          description: "commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) by `${{ github.actor }}` broke the build :("
+          username: GitHub Actions
+  tag_release:
+    needs: [deployment-pipeline]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump version and push tag
+        if: ${{ env.COMMIT_CONTAINS_SKIP == 'false' && github.event_name == 'push'}}
+        uses: anothrNick/github-tag-action@7a5eb514f1b7ee882300bd94c393913fc65ba8de
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
