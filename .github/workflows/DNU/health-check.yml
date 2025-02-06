@@ -2,10 +2,10 @@ name: Health Check
 
 on:
   schedule:
-    - cron: "25 * * * *"
+    - cron: "40 * * * *"
 
 env:
-  SCHEDULED_AT: "Every hour at minute 25 (may vary due to queue)"
+  SCHEDULED_AT: "Every hour at minute 40 (may vary due to queue)"
   DEPLOYED_APP_URL: https://blogapp-fso.fly.dev/
 
 jobs:
