@@ -1,37 +1,68 @@
-### Fullstack Blog List App
+# Fullstack Blog List App
 
-##### Commands
+## Commands
 
-1. Start by running npm install inside the cloned project folder
+1. Start by running `npm install` inside the cloned project folder.
 
-2. Build frontend using npm run build:client
+2. Build the frontend using:
 
-3. Create .env file and configure the following variables with your values: SECRET (for jwt tokens), MONGODB_URI + TEST_MONGODB_URI and optionally PORT
+   ```
+   npm run build:client
+   ```
 
-4. npm run start:server / dev:server to quickly spin-up production / development an express app available at localhost:3003 that server static files of the built frontend!
+3. Create a `.env` file and configure the following variables with your values:
+
+   - `SECRET` (for JWT tokens)
+   - `MONGODB_URI` + `TEST_MONGODB_URI`
+   - (Optional) `PORT`
+
+4. Start the server:
+
+   - For production:
+     ```
+     npm run start:server
+     ```
+   - For development:
+     ```
+     npm run dev:server
+     ```
+     The server will be available at `http://localhost:3003`, serving static files of the built frontend.
 
 5. Testing commands:
-   - npm run test:client for frontend unit tests
-   - npm run test:server for backend integration tests
-   - npm run test:e2e for Playwright end-to-end tests
+   - Frontend unit tests:
+     ```
+     npm run test:client
+     ```
+   - Backend integration tests:
+     ```
+     npm run test:server
+     ```
+   - Playwright end-to-end tests:
+     ```
+     npm run test:e2e
+     ```
 
-##### Deployment
+## Deployment
 
-- fly.io: https://blogapp-fso.fly.dev/
+- fly.io: [blogApp](https://blogapp-fso.fly.dev)
 
-##### CI/CD
+## CI/CD
 
-- CI system: GitHub Actions with custom workflows. Includes deployment pipeline workflow to test, lint, build, deploy, add tag versioning plus a health check workflow
+- **CI System:** GitHub Actions with custom workflows:
+  - Deployment pipeline workflow: test, lint, build, deploy, add tag versioning.
+  - Health check workflow.
 
-##### Some of Libraries / Tools / Frameworks:
+## Libraries / Tools / Frameworks
 
-- Frontend/Client: React + Vite
-- Backend/Server: Express. Database solution: MongoDB.
-- Server state management accomplished with TanStack Query and routing accomplished with React Router.
-- UI component library: Mantine
+- **Frontend/Client:** React + Vite
+- **Backend/Server:** Express
+- **Database:** MongoDB
+- **Server State Management:** TanStack Query
+- **Routing:** React Router
+- **UI Component Library:** Mantine
 
-##### Testing
+## Testing
 
-- End-to-end tests: Playwright
-- Frontend Unit tests: Vitest + React Testing Library + jsdom
-- Backend Integration tests: supertest
+- **End-to-End Tests:** Playwright
+- **Frontend Unit Tests:** Vitest + React Testing Library + jsdom
+- **Backend Integration Tests:** Supertest
