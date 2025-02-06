@@ -75,6 +75,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        if: ${{ env.COMMIT_CONTAINS_SKIP == 'false' && github.event_name == 'push' }}
       - name: Bump version and push tag
         if: ${{ env.COMMIT_CONTAINS_SKIP == 'false' && github.event_name == 'push' }}
         uses: anothrNick/github-tag-action@7a5eb514f1b7ee882300bd94c393913fc65ba8de
