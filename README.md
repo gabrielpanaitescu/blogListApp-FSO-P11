@@ -1,5 +1,7 @@
 ### Fullstack Blog List App
 
+##### Commands
+
 1. Start by running npm install inside the cloned project folder
 
 2. Build frontend using npm run build:client
@@ -15,7 +17,7 @@
 
 ##### Deployment
 
-- fly.io:
+- fly.io: https://blogapp-fso.fly.dev/
 
 ##### CI/CD
 

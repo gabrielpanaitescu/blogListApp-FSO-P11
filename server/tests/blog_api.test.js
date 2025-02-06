@@ -698,7 +698,7 @@ describe("users => one user is already created", () => {
     const usersAtStart = await helper.usersInDb();
 
     const user = {
-      username: "root_root",
+      username: "bloguser",
       password: "goodpass01!",
     };
 
